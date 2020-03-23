@@ -14,8 +14,9 @@ class StoreTest(IntegrationBaseTest):
 
                 self.assertEqual(response.status_code, 201)
                 self.assertIsNotNone(StoreModel.find_by_name("test"))
-                self.assertDictEqual({"name": "test", "items": []},
+                self.assertDictEqual({"id": 1, "name": "test", "items": []},
                                      json.loads(response.data))
+
     # POST
     def test_create_duplicate_store(self):
         with self.app() as client:
@@ -44,7 +45,7 @@ class StoreTest(IntegrationBaseTest):
                 response = client.get("/store/test")
 
                 self.assertEqual(response.status_code, 200)
-                self.assertDictEqual({"name": "test", "items": []},
+                self.assertDictEqual({"id": 1, "name": "test", "items": []},
                                      json.loads(response.data))
 
     # GET
@@ -67,7 +68,8 @@ class StoreTest(IntegrationBaseTest):
                 response = client.get("/store/test")
 
                 self.assertEqual(response.status_code, 200)
-                self.assertDictEqual({"name": "test",
+                self.assertDictEqual({"id": 1,
+                                      "name": "test",
                                       "items": [{"name": "test", "price": 19.99}]},
                                      json.loads(response.data))
 
@@ -79,7 +81,7 @@ class StoreTest(IntegrationBaseTest):
 
                 response = client.get("/stores")
 
-                self.assertDictEqual({"stores": [{"name": "test", "items": []}]},
+                self.assertDictEqual({"stores": [{"id": 1, "name": "test", "items": []}]},
                                      json.loads(response.data))
 
     # GET ALL
@@ -91,7 +93,7 @@ class StoreTest(IntegrationBaseTest):
 
                 response = client.get("/stores")
 
-                self.assertDictEqual({"stores": [{"name": "test",
+                self.assertDictEqual({"stores": [{"id": 1, "name": "test",
                                       "items": [{"name": "test", "price": 19.99}]}]},
                                      json.loads(response.data))
 
